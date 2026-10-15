@@ -1,0 +1,403 @@
+/* ============================================================
+   아무도 없는 섬 — 다크 미스터리 비주얼노벨 테마
+   ============================================================ */
+
+:root {
+  --bg-outer: #000000;
+  --bg: #0a0a0f;
+  --bg-panel: #121218;
+  --bg-elevated: #1a1a22;
+  --accent: #c89b4e;        /* 낡은 랜턴 금빛 */
+  --accent-dim: #8a6d35;
+  --text-main: #e9e4d8;     /* 양피지 톤 화이트 */
+  --text-sub: #8d8a94;
+  --text-faint: #5a5862;
+  --danger: #c0564a;
+  --success: #5fa883;
+  --border: rgba(255, 255, 255, 0.08);
+  --water: #2e6f8e;
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* hidden 속성은 다른 display 규칙보다 항상 우선 (JS의 .hidden 토글 안정성 보장) */
+[hidden] { display: none !important; }
+
+html, body {
+  height: 100%;
+  background: var(--bg-outer);
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Malgun Gothic', system-ui, sans-serif;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+/* ---------- 폰 프레임 ---------- */
+#phone {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  height: 100dvh;
+  max-height: 932px;
+  background: var(--bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media (min-width: 480px) and (min-height: 700px) {
+  #phone {
+    height: min(100dvh - 40px, 860px);
+    border-radius: 36px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+  }
+}
+
+/* ---------- 공통 화면 ---------- */
+.screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  padding-top: env(safe-area-inset-top, 0px); /* 노치/다이나믹 아일랜드 가림 방지 */
+}
+.screen.active { display: flex; }
+
+/* ---------- 타이틀 / 엔딩 화면 ---------- */
+#screen-title,
+#screen-end {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(40px + env(safe-area-inset-top, 0px)) 32px 40px;
+  gap: 48px;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(200, 155, 78, 0.08), transparent 60%),
+    var(--bg);
+}
+
+.title-wrap { display: flex; flex-direction: column; gap: 14px; }
+
+.title-eyebrow {
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.title-main {
+  font-size: clamp(24px, 7vw, 30px);
+  font-weight: 900;
+  line-height: 1.4;
+  color: var(--text-main);
+  text-shadow: 0 0 24px rgba(200, 155, 78, 0.25);
+}
+
+.title-sub {
+  font-size: 14px;
+  color: var(--text-sub);
+  line-height: 1.6;
+}
+
+.title-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+/* ---------- 버튼 ---------- */
+.btn {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 14px 20px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+  width: 100%;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--accent);
+  color: #1a1308;
+}
+.btn-primary:hover { background: #d8ab5e; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-sub);
+  border-color: var(--border);
+}
+.btn-ghost:hover { color: var(--text-main); border-color: var(--text-sub); }
+
+.btn-small {
+  width: auto;
+  padding: 10px 16px;
+  font-size: 13px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-sub);
+  font-size: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.icon-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.06); }
+
+/* ---------- 게임 헤더 ---------- */
+.game-header {
+  flex-shrink: 0;
+  height: 48px;
+  padding: 0 14px 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-panel);
+}
+
+.chapter-label {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--text-sub);
+}
+
+/* ---------- 이미지 영역 ---------- */
+.image-area {
+  position: relative;
+  flex: 0 0 42%;
+  overflow: hidden;
+  background: #000;
+}
+
+.bg-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.4s ease;
+}
+.bg-layer svg { width: 100%; height: 100%; display: block; }
+
+.water-overlay {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 0%;
+  background: linear-gradient(180deg, rgba(46,111,142,0.15) 0%, rgba(20,60,80,0.85) 100%);
+  border-top: 2px solid rgba(140, 200, 230, 0.5);
+  animation: rise 14s ease-in forwards, ripple 2.4s ease-in-out infinite;
+  box-shadow: 0 -6px 24px rgba(80, 180, 220, 0.25);
+}
+
+@keyframes rise {
+  0% { height: 0%; }
+  100% { height: 78%; }
+}
+@keyframes ripple {
+  0%, 100% { border-top-width: 2px; }
+  50% { border-top-width: 4px; }
+}
+
+.hotspot-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.hotspot {
+  position: absolute;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.0);
+}
+.hotspot:active { background: rgba(255,255,255,0.08); }
+
+.hotspot.hint-pulse {
+  animation: hint-pulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+@keyframes hint-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(200,155,78,0.3); }
+  50% { box-shadow: 0 0 0 2px rgba(200,155,78,0.9); }
+}
+
+.hotspot.wrong-shake { animation: shake 0.3s ease; }
+
+/* ---------- 텍스트 영역 (한 줄만 표시) ---------- */
+.text-area {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 22px 20px 30px;
+  background: var(--bg-panel);
+  cursor: pointer;
+  overflow-y: auto; /* 문장이 길어 영역을 넘길 때를 대비한 안전장치 (평소엔 한 줄이라 스크롤 없음) */
+}
+.text-area::-webkit-scrollbar { display: none; }
+.text-area { scrollbar-width: none; }
+
+.text-area:focus-visible,
+.hotspot:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.text-content {
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.line {
+  display: block;
+  animation: line-in 0.25s ease;
+}
+
+@keyframes line-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.line.narration { color: var(--text-main); }
+.line.dialogue { color: #f2e4c0; }
+.speaker-label {
+  color: var(--accent);
+  font-weight: 700;
+  margin-right: 2px;
+}
+.line.sfx {
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+.next-indicator {
+  position: absolute;
+  right: 20px;
+  bottom: 14px;
+  font-size: 11px;
+  color: var(--text-faint);
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
+/* ---------- 하단 고정 바 (정답 입력 / 힌트) ---------- */
+.bottom-bar {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border);
+  cursor: default;
+}
+
+.puzzle-controls {
+  display: flex;
+  gap: 8px;
+  cursor: default;
+}
+
+.puzzle-input {
+  flex: 1;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  color: var(--text-main);
+  font-size: 15px;
+  letter-spacing: 1px;
+}
+.puzzle-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.puzzle-input.wrong-shake { animation: shake 0.3s ease; border-color: var(--danger); }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.feedback-msg {
+  font-size: 13px;
+  min-height: 18px;
+  cursor: default;
+}
+.feedback-msg.wrong { color: var(--danger); }
+.feedback-msg.success { color: var(--success); font-weight: 700; }
+.feedback-msg.hint { color: var(--text-sub); font-style: italic; }
+
+/* ---------- 확인 모달 (초기화 등 되돌릴 수 없는 행동 전) ---------- */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: modal-fade-in 0.15s ease;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 300px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: modal-pop-in 0.18s ease;
+}
+
+.modal-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-main);
+  text-align: center;
+  white-space: pre-line;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 8px;
+}
+.modal-buttons .btn { flex: 1; width: auto; }
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-pop-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}

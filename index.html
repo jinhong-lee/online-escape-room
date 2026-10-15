@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>아무도 없는 섬</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="phone">
+
+    <!-- 타이틀 화면 -->
+    <section id="screen-title" class="screen active">
+      <div class="title-wrap">
+        <p class="title-eyebrow">ONLINE ESCAPE ROOM</p>
+        <h1 class="title-main" id="title-game-name">아무도 없는 섬</h1>
+        <p class="title-sub">정신을 차려보니, 낯선 배 안이었다.</p>
+      </div>
+      <div class="title-buttons">
+        <button id="btn-continue" class="btn btn-primary" hidden>이어서 하기</button>
+        <button id="btn-start" class="btn btn-primary">시작하기</button>
+        <button id="btn-restart-from-title" class="btn btn-ghost" hidden>처음부터 다시 시작</button>
+      </div>
+    </section>
+
+    <!-- 게임 화면 -->
+    <section id="screen-game" class="screen">
+
+      <header class="game-header">
+        <span id="chapter-label" class="chapter-label">1장 · 선박</span>
+        <button id="btn-restart" class="icon-btn" title="처음부터">⟲</button>
+      </header>
+
+      <div id="image-area" class="image-area">
+        <div id="bg-layer" class="bg-layer"></div>
+        <div id="water-overlay" class="water-overlay" hidden></div>
+        <div id="hotspot-layer" class="hotspot-layer"></div>
+      </div>
+
+      <div id="text-area" class="text-area" tabindex="0" role="button" aria-label="다음 내용 보기">
+        <div id="text-content" class="text-content"></div>
+        <div id="next-indicator" class="next-indicator" hidden>▼ 탭하여 계속</div>
+      </div>
+
+      <!-- 정답 입력/힌트 바 — 항상 화면 맨 아래 고정 -->
+      <div id="bottom-bar" class="bottom-bar" hidden>
+        <div id="feedback-msg" class="feedback-msg"></div>
+
+        <div id="puzzle-input-controls" class="puzzle-controls" hidden>
+          <input id="puzzle-input" type="text" class="puzzle-input" placeholder="정답을 입력하세요" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button id="btn-submit-answer" class="btn btn-primary btn-small">정답 제출</button>
+        </div>
+
+        <div id="puzzle-hotspot-controls" class="puzzle-controls" hidden>
+          <button id="btn-hint" class="btn btn-ghost btn-small">💡 힌트</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 엔딩(막 종료) 화면 -->
+    <section id="screen-end" class="screen">
+      <div class="title-wrap">
+        <p class="title-eyebrow" id="end-eyebrow">1막 끝</p>
+        <h1 class="title-main" id="end-title">— 다음 이야기를 기다려주세요 —</h1>
+        <p class="title-sub" id="end-sub"></p>
+      </div>
+      <div class="title-buttons">
+        <button id="btn-replay" class="btn btn-primary">처음부터 다시 플레이</button>
+      </div>
+    </section>
+
+    <!-- 확인 모달 (초기화 등 되돌릴 수 없는 행동 전 확인) -->
+    <div id="confirm-modal" class="modal-overlay" hidden>
+      <div class="modal-box">
+        <p id="confirm-modal-text" class="modal-text"></p>
+        <div class="modal-buttons">
+          <button id="confirm-modal-cancel" class="btn btn-ghost btn-small">취소</button>
+          <button id="confirm-modal-ok" class="btn btn-primary btn-small">처음부터 시작</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/story-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
