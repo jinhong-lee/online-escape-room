@@ -106,6 +106,7 @@
   const btnReplay = document.getElementById('btn-replay');
   const titleGameName = document.getElementById('title-game-name');
 
+  const imageArea = document.getElementById('image-area');
   const bgLayer = document.getElementById('bg-layer');
   const waterOverlay = document.getElementById('water-overlay');
   const hotspotLayer = document.getElementById('hotspot-layer');
@@ -247,6 +248,16 @@
     }, 180);
   }
 
+  /* ---------- 스토리 연출 효과 ----------
+     line.effect: 'shake'(충격/흔들림) | 'flicker'(조명 깜박임)
+     story-data.js에서 특정 줄에 딱 맞는 곳에만 붙여서 쓰는 용도 (남발 금지) */
+  function triggerEffect(name) {
+    const cls = `fx-${name}`;
+    imageArea.classList.remove(cls);
+    void imageArea.offsetWidth; // 리플로우 강제 → 같은 효과 연속 트리거도 재생되게
+    imageArea.classList.add(cls);
+  }
+
   function setUrgent(isUrgent) {
     waterOverlay.hidden = !isUrgent;
     if (isUrgent) {
@@ -269,6 +280,7 @@
       bg: line.bg || null,
       image: line.image || null, // 이 줄부터 실제 이미지로 전환하고 싶을 때 (예: 상자 여는 순간)
       speaker: line.speaker || null,
+      effect: line.effect || null, // 'shake' | 'flicker' — 이 줄이 뜰 때 이미지 영역에 트리거
     };
   }
 
@@ -338,6 +350,7 @@
     const line = normalizeLine(raw);
 
     if (line.bg || line.image) setBackground(scene, line.bg, line.image);
+    if (line.effect) triggerEffect(line.effect);
 
     // 한 줄만 보이도록 이전 줄은 지우고 새 줄만 표시
     textContent.innerHTML = '';

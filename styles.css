@@ -253,6 +253,40 @@ body {
   inset: 0;
 }
 
+/* ---------- 스토리 연출 효과 (line.effect로 트리거) ---------- */
+/* 충격/흔들림 — 엔진 요동, 균열 폭음 등 물리적 충격이 있는 줄 */
+.image-area.fx-shake {
+  animation: fx-shake 0.45s ease;
+}
+@keyframes fx-shake {
+  0%, 100% { transform: translate(0, 0); }
+  15% { transform: translate(-6px, 3px); }
+  30% { transform: translate(5px, -4px); }
+  45% { transform: translate(-5px, 4px); }
+  60% { transform: translate(4px, -2px); }
+  75% { transform: translate(-2px, 2px); }
+  90% { transform: translate(2px, -1px); }
+}
+
+/* 조명 깜박임 — "조명이 깜박이며 켜졌다" 같은 줄 */
+.image-area.fx-flicker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
+  animation: fx-flicker 0.6s steps(1, end);
+}
+@keyframes fx-flicker {
+  0%, 100% { opacity: 0; }
+  20%, 22% { opacity: 0.85; }
+  21% { opacity: 0; }
+  40% { opacity: 0.4; }
+  41% { opacity: 0; }
+  60% { opacity: 0.5; }
+  61% { opacity: 0; }
+}
+
 .hotspot {
   position: absolute;
   border-radius: 10px;
@@ -308,12 +342,24 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 .line.narration { color: var(--text-main); }
-.line.dialogue { color: #f2e4c0; }
+
+/* 대사: 지문보다 느리고 조용하게 등장 (속삭이듯) */
+.line.dialogue {
+  color: #f2e4c0;
+  animation: line-in-soft 0.5s ease;
+}
+@keyframes line-in-soft {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .speaker-label {
   color: var(--accent);
   font-weight: 700;
   margin-right: 2px;
 }
+
+/* 의성어: 퍽 튀어나오듯 등장 */
 .line.sfx {
   color: var(--accent);
   font-weight: 700;
@@ -321,6 +367,12 @@ body {
   text-align: center;
   margin: 10px 0;
   font-size: 15px;
+  animation: line-in-impact 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes line-in-impact {
+  0% { opacity: 0; transform: scale(0.82); }
+  60% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .next-indicator {
