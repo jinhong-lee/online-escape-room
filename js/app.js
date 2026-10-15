@@ -212,9 +212,13 @@
   /* ---------- 배경 전환 ----------
      scene.image 경로가 틀렸거나 파일이 없을 때 화면이 그냥 까맣게 뜨는 걸
      막기 위해, 실제 이미지를 미리 로드해보고 실패하면 플레이스홀더 SVG로
-     자동 대체합니다. (친구가 이미지 파일을 추가할 때 오타/경로 실수가 날 수 있음) */
-  function setBackground(scene, overrideKey) {
+     자동 대체합니다. (친구가 이미지 파일을 추가할 때 오타/경로 실수가 날 수 있음)
+
+     한 장면 안에서 줄마다 배경을 바꾸고 싶으면(line.bg/line.image) 그 줄의
+     값이 scene.background/scene.image보다 우선 적용됩니다. */
+  function setBackground(scene, overrideKey, overrideImage) {
     const key = overrideKey || scene.background || 'default';
+    const imagePath = overrideImage || scene.image;
 
     const applyPlaceholder = () => {
       bgLayer.style.backgroundImage = '';
@@ -223,19 +227,19 @@
 
     bgLayer.style.opacity = 0;
     setTimeout(() => {
-      if (scene.image) {
+      if (imagePath) {
         const preload = new Image();
         preload.onload = () => {
           bgLayer.innerHTML = '';
-          bgLayer.style.backgroundImage = `url('${scene.image}')`;
+          bgLayer.style.backgroundImage = `url('${imagePath}')`;
           bgLayer.style.backgroundSize = 'cover';
           bgLayer.style.backgroundPosition = 'center';
         };
         preload.onerror = () => {
-          console.warn(`[배경 이미지 로드 실패] "${scene.image}" 경로를 확인하세요. 임시로 플레이스홀더를 표시합니다.`);
+          console.warn(`[배경 이미지 로드 실패] "${imagePath}" 경로를 확인하세요. 임시로 플레이스홀더를 표시합니다.`);
           applyPlaceholder();
         };
-        preload.src = scene.image;
+        preload.src = imagePath;
       } else {
         applyPlaceholder();
       }
@@ -258,11 +262,12 @@
      등장인물이 여러 명이어도 줄마다 speaker만 다르게 쓰면 됩니다.
      예: { text: "거기 누구 없어요?", type: 'dialogue', speaker: '???' } */
   function normalizeLine(line) {
-    if (typeof line === 'string') return { text: line, type: 'narration', bg: null, speaker: null };
+    if (typeof line === 'string') return { text: line, type: 'narration', bg: null, image: null, speaker: null };
     return {
       text: line.text,
       type: line.type || 'narration',
       bg: line.bg || null,
+      image: line.image || null, // 이 줄부터 실제 이미지로 전환하고 싶을 때 (예: 상자 여는 순간)
       speaker: line.speaker || null,
     };
   }
@@ -332,7 +337,7 @@
     const raw = scene.lines[idx];
     const line = normalizeLine(raw);
 
-    if (line.bg) setBackground(scene, line.bg);
+    if (line.bg || line.image) setBackground(scene, line.bg, line.image);
 
     // 한 줄만 보이도록 이전 줄은 지우고 새 줄만 표시
     textContent.innerHTML = '';

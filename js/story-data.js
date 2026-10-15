@@ -19,7 +19,8 @@
         "그냥 평범한 지문"                                                      → 지문(narration)
         { text: "여기가 어디지...?", type: 'dialogue', speaker: '???' }         → 대사, "???  : 여기가 어디지...?" 형태로 표시
         { text: "철썩, 솨아아아.", type: 'sfx' }                                 → 의성어/효과음(금색 강조)
-        { text: "...", bg: 'box-open' }                                         → 이 줄부터 배경 이미지 전환
+        { text: "...", bg: 'box-open' }                                         → 이 줄부터 배경 전환(플레이스홀더 key)
+        { text: "...", image: 'assets/images/box-open.jpg' }                    → 이 줄부터 실제 이미지로 전환
 
       대사(dialogue)는 반드시 speaker를 지정하세요. 등장인물이 여러 명이어도
       줄마다 speaker 이름만 바꿔주면 됩니다 (예: speaker: '선장', speaker: '???' 등).
@@ -66,6 +67,7 @@ const scenes = [
   {
     type: 'story',
     background: 'cargo-hold',
+    image: 'assets/images/cargo-hold.jpg',
     lines: [
       { text: "철썩, 솨아아아.", type: 'sfx' },
       "차가운 바닷물이 선체에 부딪히는 소리가 고막을 파고들었다.",
@@ -92,7 +94,7 @@ const scenes = [
       "허탈한 한숨이 터져 나왔다. 깨질 듯한 두통과 정체불명의 상황, 그리고 얼마나 갇혀 있었는지 짐작조차 가지 않을 만큼 극심한 허기짐이 한꺼번에 몰려왔다.",
       "이대로 앉아서 굶어 죽을 수는 없었다. 나는 눈을 날카롭게 빛내며 주변을 다시 탐색했다. 화물창을 가득 채운 이 상자들 안에 어쩌면 탈출할 도구나 먹을 것이 들어있을지도 모른다.",
       "나는 가장 가까이 있는 첫 번째 상자로 다가갔다. 거친 나무 표면에 박힌 못을 주변에 떨어진 쇠파이프 조각으로 간신히 지탱해 들어 올렸다.",
-      { text: "쩌적—", type: 'sfx', bg: 'box-open' },
+      { text: "쩌적—", type: 'sfx', bg: 'box-open', image: 'assets/images/box-open.jpg' },
       "상자의 뚜껑이 열렸다. 안에서 나온 것은 낡은 옷가지들이었다. 원래 흰색이었을 옷감은 누렇게 변색되어 있었고, 그 상태를 보니 족히 10년은 넘게 방치된 듯했다.",
       { text: "쿨럭, 쿨럭!", type: 'sfx' },
       "옷가지를 들춰보자 매캐한 먼지가 확 피어오르며 재채기가 터져 나왔다.",
@@ -111,6 +113,7 @@ const scenes = [
   {
     type: 'story',
     background: 'box-open',
+    image: 'assets/images/box-open.jpg',
     lines: [
       "상자들을 하나씩 열어보며 이 배와, 또 어딘가에 있을 섬에 대한 단서들을 조금씩 모았다.",
       "// TODO: 친구가 만든 상자 세부 장면(섬 주민 생활 단서)으로 교체 예정",
@@ -126,6 +129,7 @@ const scenes = [
   {
     type: 'story',
     background: 'crack-wall',
+    image: 'assets/images/crack-wall.jpg',
     lines: [
       "// TODO: 균열이 발생하는 장면 (친구 스토리 대기)",
       { text: "콰앙—!!", type: 'sfx' },
@@ -143,7 +147,7 @@ const scenes = [
     puzzleType: 'input',
     background: 'crack-wall',
     urgent: true,
-    // image: 'assets/images/puzzle-flex.jpg',  // 친구 퍼즐 이미지 완성되면 이 줄 활성화
+    image: 'assets/images/puzzle-flex.jpg',
     prompt: "// TODO: 친구가 만든 실제 퍼즐 문제 들어갈 자리. 벽면에 새겨진 단서를 조합하면 답이 나온다.",
     answer: "FLEX",
     wrongFeedback: "아무 반응이 없다. 다시 생각해보자.",
@@ -155,6 +159,7 @@ const scenes = [
   {
     type: 'story',
     background: 'patched',
+    image: 'assets/images/patched.jpg',
     lines: [
       "거칠게 뛰던 숨이 조금씩 가라앉았다. 갈라졌던 선체가 다시 잠잠해졌다.",
       "하지만 이 배가, 그리고 이 섬이 품고 있는 비밀은 이제 막 시작된 것일지도 모른다.",
