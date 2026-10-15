@@ -51,6 +51,47 @@ body {
   overflow: hidden;
 }
 
+/* ============================================================
+   🛠 제작자 전용 디버그 바 (테스트 단계 전용 — 배포 전 삭제)
+   ============================================================ */
+#dev-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000; /* 모달보다도 위에 떠서 테스트 중 항상 접근 가능 */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(120, 20, 20, 0.92); /* 게임 UI와 확실히 구분되는 경고색 */
+  border-bottom: 2px solid #ff6b57;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.dev-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffd9d4;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+.dev-btn {
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  padding: 5px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dev-btn:active { background: rgba(255, 255, 255, 0.25); }
+
 /* ---------- 폰 프레임 ---------- */
 #phone {
   position: relative;

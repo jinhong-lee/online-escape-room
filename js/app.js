@@ -597,6 +597,65 @@
     showHint();
   });
 
+  /* ============================================================
+     🛠 제작자 전용 디버그 바 (테스트 단계 전용)
+     내용 다 완성되고 배포할 때는 이 블록 + index.html의 #dev-toolbar +
+     styles.css의 #dev-toolbar 관련 스타일을 통째로 삭제하면 됩니다.
+     ============================================================ */
+  const devPrevBtn = document.getElementById('dev-prev');
+  const devNextBtn = document.getElementById('dev-next');
+  const devJumpPuzzleBtn = document.getElementById('dev-jump-puzzle');
+  const devRestartBtn = document.getElementById('dev-restart');
+
+  function devGoToScene(idx, lineIdx) {
+    // 상한을 scenes.length로 묶지 않아야 "다음 내용"으로 마지막 장면 이후
+    // 엔딩 화면까지 테스트할 수 있음 (renderScene이 범위 초과를 엔딩으로 처리)
+    sceneIndex = Math.max(0, idx);
+    lineIndex = lineIdx || 0;
+    showScreen('game');
+    renderScene(sceneIndex);
+    saveProgress();
+  }
+
+  // 이전 내용: 같은 스토리 장면이면 한 줄 뒤로, 장면 맨 앞이면 이전 장면의 끝으로
+  devPrevBtn.addEventListener('click', () => {
+    const scene = scenes[sceneIndex];
+    if (scene && scene.type === 'story' && lineIndex > 0) {
+      devGoToScene(sceneIndex, lineIndex - 1);
+      return;
+    }
+    if (sceneIndex === 0) return; // 맨 처음
+    const prevIdx = sceneIndex - 1;
+    const prevScene = scenes[prevIdx];
+    const prevLine = prevScene && prevScene.type === 'story' ? prevScene.lines.length - 1 : 0;
+    devGoToScene(prevIdx, prevLine);
+  });
+
+  // 다음 내용: 퍼즐을 안 풀었어도 강제로 다음 장면으로 건너뜀 (테스트 편의용)
+  devNextBtn.addEventListener('click', () => {
+    const scene = scenes[sceneIndex];
+    if (scene && scene.type === 'story' && lineIndex < scene.lines.length - 1) {
+      devGoToScene(sceneIndex, lineIndex + 1);
+      return;
+    }
+    devGoToScene(sceneIndex + 1, 0);
+  });
+
+  // 문제로: 현재 위치 다음(없으면 처음부터 한 바퀴 돌려) 가장 가까운 퍼즐 장면으로 점프
+  devJumpPuzzleBtn.addEventListener('click', () => {
+    const n = scenes.length;
+    for (let step = 1; step <= n; step++) {
+      const idx = (sceneIndex + step) % n;
+      if (scenes[idx].type === 'puzzle') {
+        devGoToScene(idx, 0);
+        return;
+      }
+    }
+  });
+
+  // 처음으로: 확인창 없이 바로 1번 장면부터 재시작 (테스트 중 반복 재생용)
+  devRestartBtn.addEventListener('click', () => startGame(false));
+
   /* ---------- 시작 ---------- */
   initTitleScreen();
   showScreen('title');
