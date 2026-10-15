@@ -611,6 +611,9 @@
   const devNextBtn = document.getElementById('dev-next');
   const devJumpPuzzleBtn = document.getElementById('dev-jump-puzzle');
   const devRestartBtn = document.getElementById('dev-restart');
+  const devRefreshBtn = document.getElementById('dev-refresh');
+
+  const DEV_RESUME_KEY = 'escapeRoomDevResume_v1'; // 새로고침 버튼 전용, 1회성
 
   function devGoToScene(idx, lineIdx) {
     // 상한을 scenes.length로 묶지 않아야 "다음 내용"으로 마지막 장면 이후
@@ -661,7 +664,43 @@
   // 처음으로: 확인창 없이 바로 1번 장면부터 재시작 (테스트 중 반복 재생용)
   devRestartBtn.addEventListener('click', () => startGame(false));
 
+  // 새로고침: 실제 페이지를 리로드(코드/스타일 변경 반영)하면서도
+  // 지금 보고 있던 화면·장면·줄에 그대로 돌아오게 함
+  function getActiveScreenName() {
+    return Object.keys(screens).find((name) => screens[name].classList.contains('active')) || 'title';
+  }
+
+  devRefreshBtn.addEventListener('click', () => {
+    localStorage.setItem(
+      DEV_RESUME_KEY,
+      JSON.stringify({ screen: getActiveScreenName(), sceneIndex, lineIndex })
+    );
+    location.reload();
+  });
+
   /* ---------- 시작 ---------- */
-  initTitleScreen();
-  showScreen('title');
+  const devResumeRaw = localStorage.getItem(DEV_RESUME_KEY);
+  if (devResumeRaw) {
+    localStorage.removeItem(DEV_RESUME_KEY); // 1회성이므로 바로 소비
+    try {
+      const resume = JSON.parse(devResumeRaw);
+      if (resume.screen === 'game') {
+        sceneIndex = resume.sceneIndex || 0;
+        lineIndex = resume.lineIndex || 0;
+        showScreen('game');
+        renderScene(sceneIndex);
+      } else if (resume.screen === 'end') {
+        showScreen('end');
+      } else {
+        initTitleScreen();
+        showScreen('title');
+      }
+    } catch (e) {
+      initTitleScreen();
+      showScreen('title');
+    }
+  } else {
+    initTitleScreen();
+    showScreen('title');
+  }
 })();
