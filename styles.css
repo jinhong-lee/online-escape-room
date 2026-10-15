@@ -160,28 +160,10 @@ body {
 }
 .icon-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.06); }
 
-/* ---------- 게임 헤더 ---------- */
-.game-header {
-  flex-shrink: 0;
-  height: 48px;
-  padding: 0 14px 0 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg-panel);
-}
-
-.chapter-label {
-  font-size: 12px;
-  letter-spacing: 1px;
-  color: var(--text-sub);
-}
-
-/* ---------- 이미지 영역 ---------- */
+/* ---------- 이미지 영역 (헤더/텍스트 영역을 제외한 나머지를 전부 채움) ---------- */
 .image-area {
   position: relative;
-  flex: 0 0 42%;
+  flex: 1 1 auto;
   overflow: hidden;
   background: #000;
 }
@@ -239,10 +221,10 @@ body {
 
 .hotspot.wrong-shake { animation: shake 0.3s ease; }
 
-/* ---------- 텍스트 영역 (한 줄만 표시) ---------- */
+/* ---------- 텍스트 영역 (한 줄만 표시, 화면 하단 1/5 고정) ---------- */
 .text-area {
   position: relative;
-  flex: 1;
+  flex: 0 0 20%;
   display: flex;
   flex-direction: column;
   justify-content: center;

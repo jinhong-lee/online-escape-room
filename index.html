@@ -29,11 +29,6 @@
     <!-- 게임 화면 -->
     <section id="screen-game" class="screen">
 
-      <header class="game-header">
-        <span id="chapter-label" class="chapter-label">1장 · 선박</span>
-        <button id="btn-restart" class="icon-btn" title="처음부터">⟲</button>
-      </header>
-
       <div id="image-area" class="image-area">
         <div id="bg-layer" class="bg-layer"></div>
         <div id="water-overlay" class="water-overlay" hidden></div>
@@ -42,7 +37,7 @@
 
       <div id="text-area" class="text-area" tabindex="0" role="button" aria-label="다음 내용 보기">
         <div id="text-content" class="text-content"></div>
-        <div id="next-indicator" class="next-indicator" hidden>▼ 탭하여 계속</div>
+        <div id="next-indicator" class="next-indicator" hidden>▼</div>
       </div>
 
       <!-- 정답 입력/힌트 바 — 항상 화면 맨 아래 고정 -->
@@ -50,7 +45,7 @@
         <div id="feedback-msg" class="feedback-msg"></div>
 
         <div id="puzzle-input-controls" class="puzzle-controls" hidden>
-          <input id="puzzle-input" type="text" class="puzzle-input" placeholder="정답을 입력하세요" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <input id="puzzle-input" type="text" class="puzzle-input" placeholder="정답을 입력하세요" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done">
           <button id="btn-submit-answer" class="btn btn-primary btn-small">정답 제출</button>
         </div>
 

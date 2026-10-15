@@ -103,11 +103,9 @@
   const btnStart = document.getElementById('btn-start');
   const btnContinue = document.getElementById('btn-continue');
   const btnRestartFromTitle = document.getElementById('btn-restart-from-title');
-  const btnRestart = document.getElementById('btn-restart');
   const btnReplay = document.getElementById('btn-replay');
   const titleGameName = document.getElementById('title-game-name');
 
-  const chapterLabel = document.getElementById('chapter-label');
   const bgLayer = document.getElementById('bg-layer');
   const waterOverlay = document.getElementById('water-overlay');
   const hotspotLayer = document.getElementById('hotspot-layer');
@@ -318,7 +316,6 @@
   function renderStoryScene(scene) {
     currentStoryScene = scene;
     awaitingAdvance = false;
-    chapterLabel.textContent = '1장 · 선박';
     bottomBar.hidden = true;
     inputControls.hidden = true;
     hotspotControls.hidden = true;
@@ -367,7 +364,6 @@
      퍼즐 장면 — 입력형
      ============================================================ */
   function renderInputPuzzle(scene) {
-    chapterLabel.textContent = '1장 · 선박';
     bottomBar.hidden = false;
     hotspotControls.hidden = true;
     hotspotLayer.innerHTML = '';
@@ -397,6 +393,7 @@
       puzzleInput.classList.add('wrong-shake');
       feedbackMsg.className = 'feedback-msg wrong';
       feedbackMsg.textContent = '정답을 입력해주세요.';
+      puzzleInput.focus();
       return;
     }
 
@@ -419,6 +416,9 @@
         feedbackMsg.className = 'feedback-msg hint';
         feedbackMsg.textContent = `힌트: ${scene.hint}`;
       }
+
+      // 오답이어도 모바일 키패드가 접히지 않도록 포커스를 다시 보장
+      puzzleInput.focus();
     }
   }
 
@@ -426,7 +426,6 @@
      퍼즐 장면 — 핫스팟(클릭)형
      ============================================================ */
   function renderHotspotPuzzle(scene) {
-    chapterLabel.textContent = '1장 · 선박';
     bottomBar.hidden = false;
     inputControls.hidden = true;
     feedbackMsg.textContent = '';
@@ -568,24 +567,28 @@
     });
   });
 
-  btnRestart.addEventListener('click', () => {
-    showConfirmModal('처음부터 다시 시작할까요?\n지금까지 진행 상황이 사라집니다.', () => {
-      startGame(false);
-    });
-  });
-
   btnReplay.addEventListener('click', () => {
     clearProgress();
     showScreen('title');
     initTitleScreen();
   });
 
+  // 버튼을 탭해도 입력창의 포커스가 빠지지 않도록 막음
+  // (모바일에서 버튼 탭 시 기본 동작으로 input이 blur되며 키패드가 접히는 것 방지 —
+  //  오답이어도 키패드가 그대로 떠 있어야 바로 다시 입력할 수 있음)
+  btnSubmitAnswer.addEventListener('mousedown', (e) => e.preventDefault());
+  btnSubmitAnswer.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
   btnSubmitAnswer.addEventListener('click', (e) => {
     e.stopPropagation();
     checkInputAnswer();
   });
+
   puzzleInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') checkInputAnswer();
+    if (e.key === 'Enter') {
+      checkInputAnswer();
+      // 키보드 자체의 Done/Return 키를 누르면 의도적으로 키패드를 내림
+      puzzleInput.blur();
+    }
   });
   puzzleInput.addEventListener('click', (e) => e.stopPropagation());
 
