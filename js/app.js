@@ -108,7 +108,6 @@
 
   const imageArea = document.getElementById('image-area');
   const bgLayer = document.getElementById('bg-layer');
-  const waterOverlay = document.getElementById('water-overlay');
   const hotspotLayer = document.getElementById('hotspot-layer');
 
   const textArea = document.getElementById('text-area');
@@ -258,16 +257,6 @@
     imageArea.classList.add(cls);
   }
 
-  function setUrgent(isUrgent) {
-    waterOverlay.hidden = !isUrgent;
-    if (isUrgent) {
-      // 재생 시작을 위해 애니메이션 재시작
-      waterOverlay.style.animation = 'none';
-      void waterOverlay.offsetWidth;
-      waterOverlay.style.animation = '';
-    }
-  }
-
   /* ---------- 줄 정규화 ----------
      대사(type: 'dialogue')에는 speaker(인물명)를 지정할 수 있습니다.
      등장인물이 여러 명이어도 줄마다 speaker만 다르게 쓰면 됩니다.
@@ -339,7 +328,6 @@
     feedbackMsg.textContent = '';
     feedbackMsg.className = 'feedback-msg';
     hotspotLayer.innerHTML = '';
-    setUrgent(false);
     setBackground(scene);
     showStoryLine(lineIndex);
   }
@@ -391,7 +379,6 @@
     textContent.innerHTML = '';
     awaitingAdvance = false;
     setBackground(scene);
-    setUrgent(!!scene.urgent);
 
     typeText(textContent, scene.prompt, 'narration', () => {
       inputControls.hidden = false;
@@ -417,7 +404,6 @@
 
     if (val === answer) {
       bottomBar.hidden = true;
-      setUrgent(false);
       feedbackMsg.textContent = '';
       awaitingAdvance = true;
       textContent.innerHTML = '';
@@ -451,7 +437,6 @@
     textContent.innerHTML = '';
     awaitingAdvance = false;
     setBackground(scene);
-    setUrgent(!!scene.urgent);
 
     typeText(textContent, scene.prompt, 'narration', () => {
       hotspotControls.hidden = false;

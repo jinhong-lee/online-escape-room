@@ -38,7 +38,6 @@
           type: 'puzzle',
           puzzleType: 'input',
           background: 'crack-wall',
-          urgent: true,              // true면 이미지 영역에 물 차오르는 연출
           prompt: "문제 지문",
           answer: "FLEX",            // 정답 (대소문자 구분 안 함)
           wrongFeedback: "오답 시 보여줄 문구",
@@ -128,8 +127,6 @@ const scenes = [
   /* ──────────────────────────────────────────────────────────
      🚧 TODO (친구 작업분) — 균열 발생 & 침수 전환 연출
      실제 연출 문장은 친구 스토리 완성되면 교체.
-     background: 'crack-wall' 전환 + urgent 효과(물 차오름)는
-     아래 퍼즐 장면에서 이미 작동하도록 만들어둠.
      ────────────────────────────────────────────────────────── */
   {
     type: 'story',
@@ -151,7 +148,6 @@ const scenes = [
     type: 'puzzle',
     puzzleType: 'input',
     background: 'crack-wall',
-    urgent: true,
     image: 'assets/images/puzzle-flex.jpg',
     prompt: "// TODO: 친구가 만든 실제 퍼즐 문제 들어갈 자리. 벽면에 새겨진 단서를 조합하면 답이 나온다.",
     answer: "FLEX",
