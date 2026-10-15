@@ -19,7 +19,18 @@
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* 텍스트 드래그/선택 및 길게 눌렀을 때 뜨는 복사 메뉴 방지 (앱처럼 느껴지게) */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* hidden 속성은 다른 display 규칙보다 항상 우선 (JS의 .hidden 토글 안정성 보장) */
 [hidden] { display: none !important; }
@@ -313,6 +324,9 @@ body {
   color: var(--text-main);
   font-size: 15px;
   letter-spacing: 1px;
+  /* 입력창 자체는 정답을 수정할 수 있어야 하므로 선택/편집 허용 */
+  -webkit-user-select: text;
+  user-select: text;
 }
 .puzzle-input:focus {
   outline: none;
