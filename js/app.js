@@ -88,6 +88,70 @@
         <circle cx="200" cy="150" r="60" fill="none" stroke="#2a2a35" stroke-width="2"/>
         <text x="200" y="156" text-anchor="middle" fill="#5a5862" font-size="13" font-family="monospace">image placeholder</text>
       </svg>`,
+
+    /* ────────── 2장 · 첫 번째 집 ────────── */
+    'shore': `
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="moon" cx="75%" cy="15%" r="40%">
+            <stop offset="0%" stop-color="#4a5a66" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="300" fill="#07090d"/>
+        <rect width="400" height="300" fill="url(#moon)"/>
+        <circle cx="300" cy="45" r="18" fill="#cfd6da" opacity="0.5"/>
+        <g stroke="#1c2430" stroke-width="2" fill="none" opacity="0.8">
+          <path d="M0 190 Q50 180 100 190 T200 190 T300 190 T400 190"/>
+          <path d="M0 215 Q50 205 100 215 T200 215 T300 215 T400 215"/>
+        </g>
+        <rect x="0" y="230" width="400" height="70" fill="#0c0e13"/>
+      </svg>`,
+
+    'house-exterior': `
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="dusk" cx="50%" cy="20%" r="60%">
+            <stop offset="0%" stop-color="#352a22" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="300" fill="#0a0a0f"/>
+        <rect width="400" height="300" fill="url(#dusk)"/>
+        <polygon points="130,140 200,80 270,140" fill="#1b1611"/>
+        <rect x="140" y="140" width="120" height="100" fill="#181410"/>
+        <rect x="185" y="175" width="30" height="65" fill="#0d0b08"/>
+        <rect x="0" y="240" width="400" height="60" fill="#0c0e13"/>
+      </svg>`,
+
+    'house-interior': `
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="lamp" cx="50%" cy="25%" r="50%">
+            <stop offset="0%" stop-color="#4a3a22" stop-opacity="0.85"/>
+            <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="300" fill="#0a0a0f"/>
+        <rect width="400" height="300" fill="url(#lamp)"/>
+        <rect x="40" y="190" width="150" height="60" fill="#1c1812" stroke="#2c241a" stroke-width="2"/>
+        <rect x="260" y="60" width="90" height="110" fill="#14110d" stroke="#241e16" stroke-width="2"/>
+      </svg>`,
+
+    'locked-chest': `
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="chestlight" cx="50%" cy="35%" r="50%">
+            <stop offset="0%" stop-color="#3a3225" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#07090c" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="400" height="300" fill="#07090c"/>
+        <rect width="400" height="300" fill="url(#chestlight)"/>
+        <rect x="110" y="130" width="180" height="100" rx="4" fill="#1a140d" stroke="#2e2415" stroke-width="3"/>
+        <circle cx="200" cy="180" r="22" fill="none" stroke="#c89b4e" stroke-width="3" opacity="0.8"/>
+        <circle cx="200" cy="180" r="4" fill="#c89b4e"/>
+      </svg>`,
   };
 
   function getBackgroundHTML(key) {

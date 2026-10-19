@@ -334,6 +334,7 @@ body {
 .line {
   display: block;
   animation: line-in 0.25s ease;
+  white-space: pre-line; /* 퍼즐 prompt처럼 여러 단서를 줄바꿈(\n)으로 나열할 때 실제 줄바꿈으로 표시 */
 }
 
 @keyframes line-in {
