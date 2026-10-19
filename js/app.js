@@ -108,6 +108,8 @@
 
   const imageArea = document.getElementById('image-area');
   const bgLayer = document.getElementById('bg-layer');
+  const bgImage = document.getElementById('bg-image');
+  const bgPlaceholder = document.getElementById('bg-placeholder');
   const hotspotLayer = document.getElementById('hotspot-layer');
 
   const textArea = document.getElementById('text-area');
@@ -233,36 +235,47 @@
      자동 대체합니다. (친구가 이미지 파일을 추가할 때 오타/경로 실수가 날 수 있음)
 
      한 장면 안에서 줄마다 배경을 바꾸고 싶으면(line.bg/line.image) 그 줄의
-     값이 scene.background/scene.image보다 우선 적용됩니다. */
+     값이 scene.background/scene.image보다 우선 적용됩니다.
+
+     ⚠️ #bg-image는 HTML에 미리 박아둔 고정 <img> 하나를 계속 재사용하고
+     src만 바꿉니다. (이미지가 바뀔 때마다 <img>를 새로 만들어
+     innerHTML로 갈아끼우는 방식은 절대 쓰지 마세요 — 아이폰 사파리/크롬
+     (둘 다 WebKit 엔진)에서 opacity 트랜지션이 걸린 요소의 자식을
+     innerHTML로 교체하면, 로딩도 성공하고 DOM에도 정상적으로 들어가는데
+     화면만 까맣게 멈춰버리는 레이어 페인트 버그가 실제로 재현 확인됨.
+     고정된 <img>의 src 속성만 바꾸는 방식은 전 세계에서 가장 많이 쓰이는
+     표준적인 방법이라 이런 문제가 생기지 않음.) */
   function setBackground(scene, overrideKey, overrideImage) {
     const key = overrideKey || scene.background || 'default';
     const imagePath = overrideImage || scene.image;
 
     const applyPlaceholder = () => {
-      bgLayer.style.backgroundImage = '';
-      bgLayer.innerHTML = getBackgroundHTML(key);
+      bgImage.hidden = true;
+      bgImage.removeAttribute('src');
+      bgPlaceholder.innerHTML = getBackgroundHTML(key);
+      bgPlaceholder.hidden = false;
       bgLayer.style.opacity = 1;
     };
 
     bgLayer.style.opacity = 0;
     setTimeout(() => {
       if (imagePath) {
-        const preload = new Image();
+        const tester = new Image();
         // 모바일처럼 네트워크가 느릴 때 이미지가 실제로 다 받아지기 전에
         // 화면이 먼저 밝아져서 "이미지가 안 뜬다"처럼 보이던 버그 수정 —
         // opacity 복구는 반드시 로딩이 끝난 뒤(성공/실패 둘 다)에만 실행
-        preload.onload = () => {
-          bgLayer.innerHTML = '';
-          bgLayer.style.backgroundImage = `url('${imagePath}')`;
-          bgLayer.style.backgroundSize = 'cover';
-          bgLayer.style.backgroundPosition = 'center';
+        tester.onload = () => {
+          bgPlaceholder.hidden = true;
+          bgPlaceholder.innerHTML = '';
+          bgImage.src = imagePath;
+          bgImage.hidden = false;
           bgLayer.style.opacity = 1;
         };
-        preload.onerror = () => {
+        tester.onerror = () => {
           console.warn(`[배경 이미지 로드 실패] "${imagePath}" 경로를 확인하세요. 임시로 플레이스홀더를 표시합니다.`);
           applyPlaceholder();
         };
-        preload.src = imagePath;
+        tester.src = imagePath;
       } else {
         applyPlaceholder();
       }
