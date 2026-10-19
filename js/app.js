@@ -138,6 +138,24 @@
 
   titleGameName.textContent = GAME_TITLE;
 
+  // 모바일 데이터처럼 느린 네트워크에서도 장면 전환이 버벅이지 않도록,
+  // 시작하자마자 모든 장면의 이미지를 브라우저 캐시에 미리 받아둠 (결과 기다리지 않음)
+  (function preloadAllImages() {
+    const paths = new Set();
+    scenes.forEach((scene) => {
+      if (scene.image) paths.add(scene.image);
+      if (Array.isArray(scene.lines)) {
+        scene.lines.forEach((line) => {
+          if (line && typeof line === 'object' && line.image) paths.add(line.image);
+        });
+      }
+    });
+    paths.forEach((path) => {
+      const img = new Image();
+      img.src = path;
+    });
+  })();
+
   /* ---------- 화면 전환 ---------- */
   function showScreen(name) {
     Object.values(screens).forEach((el) => el.classList.remove('active'));
@@ -223,17 +241,22 @@
     const applyPlaceholder = () => {
       bgLayer.style.backgroundImage = '';
       bgLayer.innerHTML = getBackgroundHTML(key);
+      bgLayer.style.opacity = 1;
     };
 
     bgLayer.style.opacity = 0;
     setTimeout(() => {
       if (imagePath) {
         const preload = new Image();
+        // 모바일처럼 네트워크가 느릴 때 이미지가 실제로 다 받아지기 전에
+        // 화면이 먼저 밝아져서 "이미지가 안 뜬다"처럼 보이던 버그 수정 —
+        // opacity 복구는 반드시 로딩이 끝난 뒤(성공/실패 둘 다)에만 실행
         preload.onload = () => {
           bgLayer.innerHTML = '';
           bgLayer.style.backgroundImage = `url('${imagePath}')`;
           bgLayer.style.backgroundSize = 'cover';
           bgLayer.style.backgroundPosition = 'center';
+          bgLayer.style.opacity = 1;
         };
         preload.onerror = () => {
           console.warn(`[배경 이미지 로드 실패] "${imagePath}" 경로를 확인하세요. 임시로 플레이스홀더를 표시합니다.`);
@@ -243,7 +266,6 @@
       } else {
         applyPlaceholder();
       }
-      bgLayer.style.opacity = 1;
     }, 180);
   }
 
